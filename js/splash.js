@@ -1,71 +1,58 @@
-$(document).ready(function () {
-    //rotation speed and timer
-    var speed = 10000;
-
-    var run = setInterval(rotate, speed);
-    var slides = $('.slide');
-    var container = $('#slides ul');
-    var elm = container.find(':first-child').prop("tagName");
-    var item_width = container.width();
-    var previous = 'prev'; //id of previous button
-    var next = 'next'; //id of next button
-    slides.width(item_width); //set the slides to the correct pixel width
-    container.parent().width(item_width);
-    container.width(slides.length * item_width); //set the slides container to the correct total width
-    container.find(elm + ':first').before(container.find(elm + ':last'));
-    resetSlides();
-
-
-    //if user clicked on prev button
-
-    $('#buttons a').click(function (e) {
-        //slide the item
-
-        if (container.is(':animated')) {
-            return false;
-        }
-        if (e.target.id == previous) {
-            container.stop().animate({
-                'left': 0
-            }, 1500, function () {
-                container.find(elm + ':first').before(container.find(elm + ':last'));
-                resetSlides();
-            });
-        }
-
-        if (e.target.id == next) {
-            container.stop().animate({
-                'left': item_width * -2
-            }, 1500, function () {
-                container.find(elm + ':last').after(container.find(elm + ':first'));
-                resetSlides();
-            });
-        }
-
-        //cancel the link behavior
-        return false;
-
+var splash_visible = 0;
+var last_content = null;
+var last_index = null;
+function showSplash(content, index, hide_continue) {
+  if(last_content == content && last_index == index) {
+    return;
+  }
+  
+  last_content = content;
+  last_index = index;
+  
+  if(hide_continue == true) {
+    $("#continue-button").hide();
+  } else {
+  $("#continue-button").fadeIn(1000);
+  }
+  
+  if(splash_visible) {
+    $("#dialogue-content").fadeOut(500, function() {
+    
+    var next_content = content[index];
+    $("#dialogue-content").html(next_content);
+    
+    $("#dialogue-content").fadeIn(500);
     });
+  } else {
+    $(".splash").show();
+    $(".background").fadeIn(600);
+    $(".character, .dialogue").fadeIn(1000);
 
-    //if mouse hover, pause the auto rotation, otherwise rotate it
-    container.parent().mouseenter(function () {
-        clearInterval(run);
-    }).mouseleave(function () {
-        run = setInterval(rotate, speed);
-    });
-
-
-    function resetSlides() {
-        //and adjust the container so current is in the frame
-        container.css({
-            'left': -1 * item_width
-        });
+    var next_content = content[index];
+    $("#dialogue-content").html(next_content);
+  }
+  
+  $("#continue-button").off("click");
+  
+  $("#continue-button").click(function() {
+    var next_index = index+1;
+    
+    if(content[next_index] != null) {
+      showSplash(content, next_index);
+    } else {
+      hideSplash();
     }
+  });
+  
+  splash_visible = 1;
+}
 
-});
-//a simple function to click next link
-//a timer will call this function, and the rotation will begin
-
-function rotate() {
-    $('#next').click();
+function hideSplash() {
+  splash_visible = 0;
+  
+  $(".character, .dialogue").fadeOut(500, function() {
+    $(".background").fadeOut(700, function() {
+      $(".splash").hide();
+    });
+  });
 }
