@@ -1,5 +1,6 @@
 
 var map;
+var geoJSONLayer;
 
 Init();
 
