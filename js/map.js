@@ -2,7 +2,10 @@
 var map;
 
 var _features = [];
+var _nearbyCache = [];
+
 var _dataLayers = [];
+
 
 var _curUserLoc;
 var _lastUserLoc;
@@ -40,7 +43,7 @@ function _initGeolocation()
 {	
 	// Locate user, also polls on a set interval
 	map.locate({
-		setView: false,
+		setView: true,
 		maxZoom: 16,
 		watch:   true,
 		maxAge:  5000
@@ -82,29 +85,41 @@ function GetNearbyFeatures()
 {
 	var nearbyFeatures = [];
 
-	//if(_lastUserLoc.distanceTo(_curUserLoc) > 25)
-	//{
-	//	return _nearbyCache;
-	//}
-
-	for(i = 0; i < features.length; i++)
+	if(_lastUserLoc.distanceTo(_curUserLoc) > 25)
 	{
-		feature = features[i];
+		return _nearbyCache;
+	}
+
+	for(i = 0; i < _features.length; i++)
+	{
+		feature = _features[i];
 
 		if(_isNearby(_curUserLoc, feature))
 		{
-			nearbyFeatures.push(feature);
+			nearbyFeatures.push(feature.properties);
 		}
 		
+		// Sort the features by distance
+		// Todo: Avoid calling 
+		nearbyFeatures.sort(function(a, b)
+		{
+			aLatlng = a.properties.latlng;
+			bLatlng = b.properties.latlng;
+
+			return _curUserLoc.distanceTo(bLatlng) - _curUserLoc.distanceTo(aLatlng)});
+
 		_nearbyCache = nearbyFeatures;
 		return nearbyFeatures;
 	}
 }
 
-// If the user is currently within the bounds of a park, return that park.
+// If the user is currently within the bounds of a park, return that park. null otherwise.
 function GetCurrentPark()
 {
-
+	for(i = 0; i < _nearbyCache.length; i++)
+	{
+		
+	}
 }
 
 // Data loading
