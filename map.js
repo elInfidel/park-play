@@ -17,10 +17,12 @@ function Init()
 
 function LoadPlaygrounds(features)
 {
-    for (var i = 0; i < features.length; i++) 
+    for (var i = 0; i < features.length; i++)
     {
+		feature = features[i];
+
         L.marker(
-            [features[i].properties.lat, features[i].properties.long]
+            [feature.properties.lat, feature.properties.long]
         ).addTo(map);
     }
 }
