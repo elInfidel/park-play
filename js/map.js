@@ -6,7 +6,7 @@ Init();
 
 function Init()
 {
-    map = L.map('mapid').setView([-37.717, 144.836], 13);
+    map = L.map('mapid', , { zoomControl:false }).setView([-37.717, 144.836], 13);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 	    maxZoom: 18,
 	    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
