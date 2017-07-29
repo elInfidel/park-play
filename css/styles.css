@@ -14,13 +14,16 @@ body{
   background-color: #c6e68e;
   position:absolute;
   opacity: 0.7;
+  z-index: 1;
 }
 
 .character{
   position:absolute;
   margin: 50px;
   bottom: 10px;
-  left:20%;
+  padding-left:20%;
+  z-index: 2;
+
 }
 
 .container {
@@ -29,8 +32,28 @@ body{
     position:absolute;
     left:20px;
     top:10px;
+    z-index: 1;
 }
 
+.dialogue{
+
+
+  left: 20%;
+  top:5%;
+  position:absolute;
+  border-color: white;
+  border-width: medium;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 1%;
+  background-color: white;
+  opacity: 0.8;
+  z-index: 1;
+  left: 40%;
+  top: 30%;
+
+
+}
 .bar1, .bar2, .bar3 {
     width: 35px;
     height: 5px;
@@ -49,4 +72,100 @@ body{
 .change .bar3 {
     -webkit-transform: rotate(45deg) translate(-8px, -8px) ;
     transform: rotate(45deg) translate(-8px, -8px) ;
+}
+
+
+
+
+
+
+
+
+
+#carousel {
+position: relative;
+
+margin:0 auto;
+
+}
+
+#slides {
+overflow: hidden;
+position: relative;
+width: 80%;
+height: 250px;
+}
+
+#slides ul {
+list-style: none;
+width:80%;
+height:250px;
+margin: 0;
+padding: 0;
+position: relative;
+}
+
+ #slides li {
+width:80%;
+height:250px;
+float:left;
+text-align: center;
+position: relative;
+font-family:lato, sans-serif;
+}
+/* Styling for prev and next buttons */
+.btn-bar{
+    max-width: 346px;
+    margin: 0 auto;
+    display: inline;
+    position: relative;
+    top: 40px;
+    width: 20%;
+}
+
+ #buttons {
+
+float:left;
+}
+
+#buttons a {
+text-align:center;
+display: inline;
+font-size:50px;
+float:left;
+outline:0;
+margin:0 60px;
+color:#b14943;
+text-decoration:none;
+width:10%;
+}
+
+a#prev:hover, a#next:hover {
+color:#FFF;
+text-shadow:.5px 0px #b14943;
+}
+
+.quote-phrase {
+font-family:sans-serif;
+font-weight:300;
+display: table-cell;
+vertical-align: middle;
+padding: 5px 20px;
+font-family:'Lato', Calibri, Arial, sans-serif;
+}
+
+.quote-phrase {
+font-size:24px;
+color:black;
+font-style:italic;
+text-shadow:.5px 0px #b14943;
+}
+
+
+
+
+
+.quoteContainer{
+display: table;
+width: 100%;
 }
