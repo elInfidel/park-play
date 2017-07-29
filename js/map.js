@@ -19,10 +19,13 @@ function Init()
 function LoadPlaygrounds(featureCollection)
 {
 	console.log("Loading playgrounds");
+	features = featureCollection.features;
 
-	var playgroundLayer = L.geoJson(featureCollection).addTo(map);
-
-	map.fitBounds(playgroundLayer.getBounds());
+	for(i = 0; i < features.length; i++)
+	{
+		properties = features[i].properties;
+		L.marker([properties.lat, properties.long]).addTo(map);
+	}
 }
 
 function LoadParks(featureCollection)

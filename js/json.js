@@ -7,8 +7,8 @@ $(document).ready(function()
   );
 
   // Brimbank dog off-leash areas
-  //DataLoader("http://data.gov.au/geoserver/dog-off-leash-areas/wfs?request=GetFeature&typeName=ckan_e0e8e9ed_f781_453e_9424_83ed6cb9b8ec&outputFormat=json",
-  //LoadOffLeash            
+  DataLoader("http://data.gov.au/geoserver/dog-off-leash-areas/wfs?request=GetFeature&typeName=ckan_e0e8e9ed_f781_453e_9424_83ed6cb9b8ec&outputFormat=json",
+  LoadOffLeash            
   //);
 
   // Brimbank open spaces data.
