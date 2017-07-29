@@ -34,19 +34,22 @@ function Init()
 
 function InitGeolocation()
 {	
-	map.locate({setView: true, maxZoom: 16});
-
-	// Poll position at set time interval
-	window.setInterval(function(){
-  		map.locate({setView: true, maxZoom: 16});
-	}, 5000);
+	// Locate user, also polls on a set interval
+	map.locate({
+		setView: false,
+		maxZoom: 16,
+		watch:   true,
+		maxAge:  5000
+	});
 
 	// Geolocation handling
 	function onLocationFound(e) 
 	{
+		currentLocation = e.latlng;
+
     	var radius = e.accuracy / 2;
     	L.marker(e.latlng).addTo(map).bindPopup("You are within " + radius + " meters from this point").openPopup();
-    	L.circle(e.latlng, radius).addTo(map);
+    	//L.circle(e.latlng, radius).addTo(map);
 	}
 	map.on('locationfound', onLocationFound);
 
@@ -61,13 +64,13 @@ function InitGeolocation()
 function LoadPlaygrounds(featureCollection)
 {
 	console.log("Loading playgrounds");
-	L.Proj.geoJson(featureCollection).addTo(map);
+	//L.Proj.geoJson(featureCollection).addTo(map);
 }
 
 function LoadParks(featureCollection)
 {
 	console.log("Loading parks");
-	//L.Proj.geoJson(featureCollection).addTo(map);
+	L.Proj.geoJson(featureCollection).addTo(map);
 }
 
 function LoadOffLeash(featureCollection)
@@ -78,6 +81,7 @@ function LoadOffLeash(featureCollection)
 
 function IsNearby()
 {
+	
     return false;
 }
 
