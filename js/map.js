@@ -41,24 +41,16 @@ function InitGeolocation()
 		watch:   true,
 		maxAge:  5000
 	});
+}
 
-	// Geolocation handling
-	function onLocationFound(e) 
-	{
-		currentLocation = e.latlng;
+function RegisterGeolocationFoundFunc(cb)
+{
+	map.on('locationfound', cb);
+}
 
-    	var radius = e.accuracy / 2;
-    	L.marker(e.latlng).addTo(map).bindPopup("You are within " + radius + " meters from this point").openPopup();
-    	//L.circle(e.latlng, radius).addTo(map);
-	}
-	map.on('locationfound', onLocationFound);
-
-	// Geolocation error handling
-	function onLocationError(e) 
-	{
-    	alert(e.message);
-	}
-	map.on('locationerror', onLocationError);
+function RegisterGeoLocationErrorFunc(cb)
+{
+	map.on('locationerror', cb);
 }
 
 function LoadPlaygrounds(featureCollection)
@@ -81,7 +73,7 @@ function LoadOffLeash(featureCollection)
 
 function IsNearby()
 {
-	
+
     return false;
 }
 
