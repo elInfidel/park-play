@@ -23,6 +23,7 @@ function LoadPlaygrounds(featureCollection)
 
 	for(i = 0; i < features.length; i++)
 	{
+		// Create a marker for each available playground
 		properties = features[i].properties;
 		L.marker([properties.lat, properties.long]).addTo(map);
 	}
@@ -35,12 +36,28 @@ function LoadParks(featureCollection)
 
 function LoadOffLeash(featureCollection)
 {
+	console.log("Loading off-leash dog parks");
+	features = featureCollection.features;
 
+	for(i = 0; i < features.length; i++)
+	{
+		coordList = features[i].geometry.coordinates[0][0];
+
+		// We pull x,y coords from given pos data.
+		var parsedCoords = [];
+		for(j = 0; j < coordList.length; j++)
+		{
+			parsedCoords.push(coordList[j][0], coordList[j][1])
+		}
+
+		// Created the given boundary in leaflet
+		var polygon = L.polygon(parsedCoords, {color: 'green'}).addTo(map);
+	}
 }
 
-function FindLocalPOIS()
+function IsNearby()
 {
-    
+    return false;
 }
 
 
