@@ -2,7 +2,7 @@ var splash_visible = 0;
 var last_content = null;
 var last_index = null;
 function showSplash(content, index, hide_continue) {
-  if(last_content == content && last_index == index) {
+  if(last_content == content && index <= last_index) {
     return;
   }
   
