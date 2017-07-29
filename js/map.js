@@ -6,7 +6,24 @@ function Init()
 {
 	console.log("Initializing leaflet map");
 
-    map = L.map('mapid',{ zoomControl:false}).setView([-37.717, 144.836], 13);
+	// Build custom coordinate reference object for dealing with australian geolocation data.
+	var crs = new L.CRS.Proj('EPSG:28355',
+  	'+proj=utm +zone=55 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
+  	{
+    	resolutions: [
+    	  8192, 4096, 2048, 1024, 512, 256, 128
+    	],
+    	origin: [0, 0]
+  	})
+	
+	// Instantiate our map
+	map = L.map('mapid',
+	{ 
+		zoomControl:false, 
+		crs:crs 
+	});
+	
+	// Build a tile layer to display map data.
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 	    maxZoom: 18,
 	    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -44,16 +61,14 @@ function LoadOffLeash(featureCollection)
 		coordList = features[i].geometry.coordinates[0][0];
 
 		// We pull x,y coords from given pos data.
-		var parsedCoords = [];
-		console.log("Feature: " + i);
-		for(j = 0; j < coordList.length; j++)
-		{
-			console.log("Pos: " + j + " - " + coordList[j][0] + ":" + coordList[j][1]);
-			parsedCoords.push(coordList[j][0], coordList[j][1])
-		}
+		//var parsedCoords = [];
+		//for(j = 0; j < coordList.length; j++)
+		//{
+		//	parsedCoords.push(coordList[j][0], coordList[j][1])
+		//}
 
 		// Created the given boundary in leaflet
-		var polygon = L.polygon(parsedCoords, {color: 'green'}).addTo(map);
+		//var polygon = L.polygon(parsedCoords, {color: 'green'}).addTo(map);
 	}
 }
 
