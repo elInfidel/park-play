@@ -28,6 +28,8 @@ function Init()
 		    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 	    id: 'mapbox.streets'
 	}).addTo(map);
+
+	InitGeolocation();
 }
 
 function InitGeolocation()
