@@ -8,6 +8,21 @@ body{
   margin:0px;
 }
 
+.background{
+  height: 100%;
+  width: 100%;
+  background-color: #c6e68e;
+  position:absolute;
+  opacity: 0.7;
+}
+
+.character{
+  position:absolute;
+  margin: 50px;
+  bottom: 10px;
+  left:20%;
+}
+
 .container {
     display: inline-block;
     cursor: pointer;
