@@ -59,6 +59,9 @@ function _onLocationUpdateInternal(loc)
 
 function _isNearby(latLngA, latLngB)
 {
+	if(latLngA == undefined || latLngB == undefined)
+		return false;
+	
 	var dist = latLngA.distanceTo(latLngB);
 
 	if(dist < NEARBY_MAX_DIST)
