@@ -8,6 +8,52 @@ body{
   margin:0px;
 }
 
+#menu {
+  position: absolute;
+  left: 0px;
+  z-index: 3;
+  background: #fff;
+  width: 20%;
+  left: -20%;
+  height: 100%;
+  box-shadow: 1px 0px 7px #c6e68e;
+  opacity: 0.9;
+}
+
+#menu #logo {
+  width: 90%;
+  margin:30px 5% 0px 5%;
+}
+
+#menu ul#navigation {
+  margin: 0px;
+  padding: 0px;
+}
+
+#menu ul#navigation li {
+  width: 100%;
+  min-width: 100px;
+  line-height: 40px;
+  text-indent: 15px;
+  background: #fafafa;
+  border-top: 1px solid #fff;
+  list-style: none;
+  list-style-type:none;
+  color: #555;
+  overflow: hidden;
+  font-family: Verdana;
+  font-size: 9pt;
+}
+
+#menu ul#navigation li:hover {
+  background: #f0f0f0;
+  cursor: pointer;
+}
+
+#menu ul#navigation li.subnavigation {
+  text-indent: 30px;
+}
+
 .background{
   height: 100%;
   width: 100%;
@@ -26,7 +72,7 @@ body{
 
 }
 
-.container {
+.menu-button {
     display: inline-block;
     cursor: pointer;
     position:absolute;
@@ -36,8 +82,6 @@ body{
 }
 
 .dialogue{
-
-
   left: 20%;
   top:5%;
   position:absolute;
@@ -51,10 +95,9 @@ body{
   z-index: 1;
   left: 40%;
   top: 30%;
-
-
 }
-.bar1, .bar2, .bar3 {
+
+.menu-button .bar1, .menu-button .bar2, .menu-button .bar3 {
     width: 35px;
     height: 5px;
     background-color: #333;
@@ -62,14 +105,14 @@ body{
     transition: 0.4s;
 }
 
-.change .bar1 {
+.menu-button-active .bar1 {
     -webkit-transform: rotate(-45deg) translate(-9px, 6px) ;
     transform: rotate(-45deg) translate(-9px, 6px) ;
 }
 
-.change .bar2 {opacity: 0;}
+.menu-button-active .bar2 {opacity: 0;}
 
-.change .bar3 {
+.menu-button-active .bar3 {
     -webkit-transform: rotate(45deg) translate(-8px, -8px) ;
     transform: rotate(45deg) translate(-8px, -8px) ;
 }
