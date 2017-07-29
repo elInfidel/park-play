@@ -1,10 +1,18 @@
 
 var map;
+var crs;
+
+var currentLocation;
+
 Init();
 
 function Init()
 {
 	console.log("Initializing leaflet map");
+
+	// Build custom coordinate reference object for dealing with australian geolocation data.
+	crs = new L.Proj.CRS('EPSG:28355',
+  		'+proj=utm +zone=55 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
 
 	// Instantiate our map
 	map = L.map('mapid',
@@ -20,17 +28,32 @@ function Init()
 		    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 	    id: 'mapbox.streets'
 	}).addTo(map);
+}
 
+function InitGeolocation()
+{	
 	map.locate({setView: true, maxZoom: 16});
 
+	// Poll position at set time interval
+	window.setInterval(function(){
+  		map.locate({setView: true, maxZoom: 16});
+	}, 5000);
+
+	// Geolocation handling
 	function onLocationFound(e) 
 	{
     	var radius = e.accuracy / 2;
     	L.marker(e.latlng).addTo(map).bindPopup("You are within " + radius + " meters from this point").openPopup();
     	L.circle(e.latlng, radius).addTo(map);
 	}
-
 	map.on('locationfound', onLocationFound);
+
+	// Geolocation error handling
+	function onLocationError(e) 
+	{
+    	alert(e.message);
+	}
+	map.on('locationerror', onLocationError);
 }
 
 function LoadPlaygrounds(featureCollection)
@@ -42,13 +65,13 @@ function LoadPlaygrounds(featureCollection)
 function LoadParks(featureCollection)
 {
 	console.log("Loading parks");
-	L.Proj.geoJson(featureCollection).addTo(map);
+	//L.Proj.geoJson(featureCollection).addTo(map);
 }
 
 function LoadOffLeash(featureCollection)
 {
 	console.log("Loading off-leash dog parks");
-	L.Proj.geoJson(featureCollection).addTo(map);
+	//L.Proj.geoJson(featureCollection).addTo(map);
 }
 
 function IsNearby()
