@@ -9,16 +9,15 @@ function Init()
 	// Build custom coordinate reference object for dealing with australian geolocation data.
 	var crs = new L.Proj.CRS('EPSG:28355',
   		'+proj=utm +zone=55 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
-	
+
 	// Instantiate our map
 	map = L.map('mapid',
 	{ 
-		zoomControl:false, 
-		crs:crs 
-	});
+		zoomControl:false 
+	}).setView([-37.773524, 144.758334], 13);
 	
 	// Build a tile layer to display map data.
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibGlhbTExMzUiLCJhIjoiY2o1cGU5NWU5MDlrMjJxcGhxcWQ1ZGtscCJ9.gB_auIuL3Mz7WLeV8vM8CA', {
 	    maxZoom: 18,
 	    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
 		    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
