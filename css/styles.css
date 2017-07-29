@@ -17,7 +17,7 @@ body{
   left: -20%;
   height: 100%;
   box-shadow: 1px 0px 7px #c6e68e;
-  opacity: 0.9;
+  opacity: 1;
 }
 
 #menu #logo {
@@ -78,7 +78,7 @@ body{
     position:absolute;
     left:20px;
     top:10px;
-    z-index: 1;
+    z-index: 3;
 }
 
 .dialogue{
