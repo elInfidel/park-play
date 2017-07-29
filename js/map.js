@@ -7,14 +7,8 @@ function Init()
 	console.log("Initializing leaflet map");
 
 	// Build custom coordinate reference object for dealing with australian geolocation data.
-	var crs = new L.CRS.Proj('EPSG:28355',
-  	'+proj=utm +zone=55 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
-  	{
-    	resolutions: [
-    	  8192, 4096, 2048, 1024, 512, 256, 128
-    	],
-    	origin: [0, 0]
-  	})
+	var crs = new L.Proj.CRS('EPSG:28355',
+  		'+proj=utm +zone=55 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
 	
 	// Instantiate our map
 	map = L.map('mapid',
