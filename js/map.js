@@ -3,7 +3,12 @@ var map;
 var crs;
 
 var _features = [];
+var _nearbyCache = [];
+
 var _curUserLoc;
+var _lastUserLoc;
+
+var NEARBY_MAX_DIST = 2000;
 
 _init();
 
@@ -41,30 +46,25 @@ function _initGeolocation()
 		watch:   true,
 		maxAge:  5000
 	});
+	RegisterGeolocationFoundFunc(_onLocationUpdateInternal);
 }
 
-function _loadPlaygrounds(featureCollection)
+function _onLocationUpdateInternal(loc)
 {
-	console.log("Loading playgrounds");
-	L.Proj.geoJson(featureCollection).addTo(map);
+	_lastUserLoc = _curUserLoc;
+	_curUserLoc = latlng;
+	GetNearbyFeatures
 }
 
-function _loadParks(featureCollection)
+// Returns true when a set of coordinates are within 2km of the user.
+function _isNearby(latLngA, latLngB)
 {
-	console.log("Loading parks");
-	L.Proj.geoJson(featureCollection).addTo(map);
-}
+	var dist = latLngA.distanceTo(latLngB);
 
-function _loadOffLeash(featureCollection)
-{
-	console.log("Loading off-leash dog parks");
-	//L.Proj.geoJson(featureCollection).addTo(map);
-}
-
-function _isNearby(latLng)
-{
-	_curUserLoc.distanceTo();
-    return false;
+	if(dist < NEARBY_MAX_DIST)
+		return true;
+	else
+		return false;
 }
 
 function RegisterGeolocationFoundFunc(cb)
@@ -79,37 +79,46 @@ function RegisterGeoLocationErrorFunc(cb)
 
 function GetNearbyFeatures()
 {
+	var nearbyFeatures = [];
+
+	if(_lastUserLoc.distanceTo(_curUserLoc) > 25)
+	{
+		return _nearbyCache;
+	}
+
 	for(i = 0; i < features.length; i++)
 	{
-		_curUserLoc.distanceTo(features[i]);
+		feature = features[i];
+
+		if(_isNearby(_curUserLoc, feature))
+		{
+			nearbyFeatures.push(feature);
+		}
+
+		_nearbyCache = nearbyFeatures;
+		return nearbyFeatures;
 	}
 }
 
 // Data loading
 $(document).ready(function()
 {
-  // Brimbank playground data
-  DataLoader("http://data.gov.au/geoserver/playground/wfs?request=GetFeature&typeName=ckan_e8d3580c_3981_47ab_a675_573805c3fa86&outputFormat=json",
-  _loadPlaygrounds            
-  );
-
-  // Brimbank dog off-leash areas
-  DataLoader("http://data.gov.au/geoserver/dog-off-leash-areas/wfs?request=GetFeature&typeName=ckan_e0e8e9ed_f781_453e_9424_83ed6cb9b8ec&outputFormat=json",
-  _loadOffLeash            
-  );
-
+  // Brimbank playground data.
+  DataLoader("http://data.gov.au/geoserver/playground/wfs?request=GetFeature&typeName=ckan_e8d3580c_3981_47ab_a675_573805c3fa86&outputFormat=json");
+  // Brimbank dog off-leash areas.
+  DataLoader("http://data.gov.au/geoserver/dog-off-leash-areas/wfs?request=GetFeature&typeName=ckan_e0e8e9ed_f781_453e_9424_83ed6cb9b8ec&outputFormat=json");
   // Brimbank open spaces data.
-  DataLoader("http://data.gov.au/geoserver/brimbank-parks-and-open-spaces-0-1/wfs?request=GetFeature&typeName=ckan_90e012a2_8651_43f3_8e02_bb2ae3abede6&outputFormat=json",
-  _loadParks            
-  );
+  DataLoader("http://data.gov.au/geoserver/brimbank-parks-and-open-spaces-0-1/wfs?request=GetFeature&typeName=ckan_90e012a2_8651_43f3_8e02_bb2ae3abede6&outputFormat=json");
+  // Ballarat playground data.
+  DataLoader("http://data.gov.au/dataset/a9b248c1-2078-45fa-b9c6-b2ae562c87b2/resource/693b8663-efd6-4583-9dd6-7a3793e54bae/download/ballaratplaygrounds.geojson");
 
-  function DataLoader(url, callback)
+  function DataLoader(url)
   {
     $.getJSON(url,
     function( data ) 
     { 
 		_features.push(data.features);
-    	callback(data)
+    	L.Proj.geoJson(data).addTo(map);
     });
   }
 
