@@ -6,7 +6,7 @@ function Init()
 {
 	console.log("Initializing leaflet map");
 
-    map = L.map('mapid',{ zoomControl:false }).setView([-37.717, 144.836], 13);
+    map = L.map('mapid',{ zoomControl:false}).setView([-37.717, 144.836], 13);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 	    maxZoom: 18,
 	    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -16,26 +16,48 @@ function Init()
 	}).addTo(map);
 }
 
-function LoadPlaygrounds(features)
+function LoadPlaygrounds(featureCollection)
 {
 	console.log("Loading playgrounds");
+	features = featureCollection.features;
 
-	var playgroundLayer = L.geoJson(features).addTo(map);
+	for(i = 0; i < features.length; i++)
+	{
+		// Create a marker for each available playground
+		properties = features[i].properties;
+		L.marker([properties.lat, properties.long]).addTo(map);
+	}
 }
 
-function LoadParks(features)
+function LoadParks(featureCollection)
 {
 
 }
 
-function LoadOffLeash(features)
+function LoadOffLeash(featureCollection)
 {
+	console.log("Loading off-leash dog parks");
+	features = featureCollection.features;
 
+	for(i = 0; i < features.length; i++)
+	{
+		coordList = features[i].geometry.coordinates[0][0];
+
+		// We pull x,y coords from given pos data.
+		var parsedCoords = [];
+		for(j = 0; j < coordList.length; j++)
+		{
+			parsedCoords.push(coordList[j][0], coordList[j][1])
+		}
+
+		// Created the given boundary in leaflet
+		var polygon = L.polygon(parsedCoords, {color: 'green'}).addTo(map);
+	}
 }
 
-function FindLocalPOIS()
+function IsNearby()
 {
-    
+    return false;
 }
 
 
