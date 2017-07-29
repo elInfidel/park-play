@@ -21,7 +21,7 @@ $(document).ready(function()
     $.getJSON(url,
     function( data ) 
     { 
-      callback(data.features)
+      callback(data)
     });
   }
 

@@ -6,7 +6,7 @@ function Init()
 {
 	console.log("Initializing leaflet map");
 
-    map = L.map('mapid',{ zoomControl:false }).setView([-37.717, 144.836], 13);
+    map = L.map('mapid',{ zoomControl:false}).setView([-37.717, 144.836], 13);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 	    maxZoom: 18,
 	    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -16,19 +16,21 @@ function Init()
 	}).addTo(map);
 }
 
-function LoadPlaygrounds(features)
+function LoadPlaygrounds(featureCollection)
 {
 	console.log("Loading playgrounds");
 
-	var playgroundLayer = L.geoJson(features).addTo(map);
+	var playgroundLayer = L.geoJson(featureCollection).addTo(map);
+
+	map.fitBounds(playgroundLayer.getBounds());
 }
 
-function LoadParks(features)
+function LoadParks(featureCollection)
 {
 
 }
 
-function LoadOffLeash(features)
+function LoadOffLeash(featureCollection)
 {
 
 }
