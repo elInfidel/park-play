@@ -81,10 +81,10 @@ function GetNearbyFeatures()
 {
 	var nearbyFeatures = [];
 
-	if(_lastUserLoc.distanceTo(_curUserLoc) > 25)
-	{
-		return _nearbyCache;
-	}
+	//if(_lastUserLoc.distanceTo(_curUserLoc) > 25)
+	//{
+	//	return _nearbyCache;
+	//}
 
 	for(i = 0; i < features.length; i++)
 	{
