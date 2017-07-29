@@ -55,7 +55,6 @@ function _onLocationUpdateInternal(loc)
 {
 	_lastUserLoc = _curUserLoc;
 	_curUserLoc = loc.latlng;
-	GetNearbyFeatures
 }
 
 function _isNearby(latLngA, latLngB)
@@ -106,7 +105,8 @@ function GetNearbyFeatures()
 			aLatlng = a.properties.latlng;
 			bLatlng = b.properties.latlng;
 
-			return _curUserLoc.distanceTo(bLatlng) - _curUserLoc.distanceTo(aLatlng)});
+			return _curUserLoc.distanceTo(bLatlng) - _curUserLoc.distanceTo(aLatlng)
+		});
 
 		_nearbyCache = nearbyFeatures;
 		return nearbyFeatures;
