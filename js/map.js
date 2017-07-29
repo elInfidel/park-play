@@ -20,7 +20,7 @@ function LoadPlaygrounds(features)
 {
 	console.log("Loading playgrounds");
 
-	var playgroundLayer = L.geoJSON(features).addTo(map);
+	var playgroundLayer = L.geoJson(features).addTo(map);
 }
 
 function LoadParks(features)
