@@ -18,15 +18,15 @@ function Init()
 
 function LoadPlaygrounds(featureCollection)
 {
-	console.log("Loading playgrounds");
-	features = featureCollection.features;
+	//console.log("Loading playgrounds");
+	//features = featureCollection.features;
 
-	for(i = 0; i < features.length; i++)
-	{
-		// Create a marker for each available playground
-		properties = features[i].properties;
-		L.marker([properties.lat, properties.long]).addTo(map);
-	}
+	//for(i = 0; i < features.length; i++)
+	//{
+	//	// Create a marker for each available playground
+	//	properties = features[i].properties;
+	//	L.marker([properties.lat, properties.long]).addTo(map);
+	//}
 }
 
 function LoadParks(featureCollection)
@@ -45,8 +45,10 @@ function LoadOffLeash(featureCollection)
 
 		// We pull x,y coords from given pos data.
 		var parsedCoords = [];
+		console.log("Feature: " + i);
 		for(j = 0; j < coordList.length; j++)
 		{
+			console.log("Pos: " + j + " - " + coordList[j][0] + ":" + coordList[j][1]);
 			parsedCoords.push(coordList[j][0], coordList[j][1])
 		}
 
