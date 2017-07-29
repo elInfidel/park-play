@@ -17,10 +17,10 @@ function Init()
 
 function LoadPlaygrounds(features)
 {
-    //for (var i = 0; i < features.length; i++)
-    //{
-    //    L.geoJSON(features[i]).addTo(map);
-    //}
+    for (var i = 0; i < features.length; i++)
+    {
+        L.geoJSON(features[i]).addTo(map);
+	}
 }
 
 function LoadParks(features)
