@@ -15,19 +15,30 @@ function Init()
     }).addTo(map);
 }
 
-function LoadMapData(features)
+function LoadPlaygrounds(features)
 {
     for (var i = 0; i < features.length; i++) 
     {
         L.marker(
-            [features[i].properties.lat, features[i].properties.long],
-            false,
-            true,
-            features[i].properties.site_name
+            [features[i].properties.lat, features[i].properties.long]
         ).addTo(map);
     }
 }
 
+function LoadParks(features)
+{
+
+}
+
+function LoadOffLeash(features)
+{
+
+}
+
+function FindLocalPOIS()
+{
+    
+}
 
 
 
