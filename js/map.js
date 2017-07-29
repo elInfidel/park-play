@@ -6,10 +6,6 @@ function Init()
 {
 	console.log("Initializing leaflet map");
 
-	// Build custom coordinate reference object for dealing with australian geolocation data.
-	var crs = new L.Proj.CRS('EPSG:28355',
-  		'+proj=utm +zone=55 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
-
 	// Instantiate our map
 	map = L.map('mapid',
 	{ 
@@ -24,45 +20,35 @@ function Init()
 		    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 	    id: 'mapbox.streets'
 	}).addTo(map);
+
+	map.locate({setView: true, maxZoom: 16});
+
+	function onLocationFound(e) 
+	{
+    	var radius = e.accuracy / 2;
+    	L.marker(e.latlng).addTo(map).bindPopup("You are within " + radius + " meters from this point").openPopup();
+    	L.circle(e.latlng, radius).addTo(map);
+	}
+
+	map.on('locationfound', onLocationFound);
 }
 
 function LoadPlaygrounds(featureCollection)
 {
-	//console.log("Loading playgrounds");
-	//features = featureCollection.features;
-
-	//for(i = 0; i < features.length; i++)
-	//{
-	//	// Create a marker for each available playground
-	//	properties = features[i].properties;
-	//	L.marker([properties.lat, properties.long]).addTo(map);
-	//}
+	console.log("Loading playgrounds");
+	L.Proj.geoJson(featureCollection).addTo(map);
 }
 
 function LoadParks(featureCollection)
 {
-
+	console.log("Loading parks");
+	L.Proj.geoJson(featureCollection).addTo(map);
 }
 
 function LoadOffLeash(featureCollection)
 {
 	console.log("Loading off-leash dog parks");
-	features = featureCollection.features;
-
-	for(i = 0; i < features.length; i++)
-	{
-		coordList = features[i].geometry.coordinates[0][0];
-
-		// We pull x,y coords from given pos data.
-		//var parsedCoords = [];
-		//for(j = 0; j < coordList.length; j++)
-		//{
-		//	parsedCoords.push(coordList[j][0], coordList[j][1])
-		//}
-
-		// Created the given boundary in leaflet
-		//var polygon = L.polygon(parsedCoords, {color: 'green'}).addTo(map);
-	}
+	L.Proj.geoJson(featureCollection).addTo(map);
 }
 
 function IsNearby()
