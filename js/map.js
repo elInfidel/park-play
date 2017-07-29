@@ -1,9 +1,8 @@
 
 var map;
-var crs;
 
 var _features = [];
-var _nearbyCache = [];
+var _dataLayers = [];
 
 var _curUserLoc;
 var _lastUserLoc;
@@ -17,7 +16,7 @@ function _init()
 	console.log("Initializing leaflet map");
 
 	// Build custom coordinate reference object for dealing with australian geolocation data.
-	crs = new L.Proj.CRS('EPSG:28355', '+proj=utm +zone=55 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
+	var crs = new L.Proj.CRS('EPSG:28355', '+proj=utm +zone=55 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
 
 	// Instantiate our map
 	map = L.map('mapid',
@@ -52,11 +51,10 @@ function _initGeolocation()
 function _onLocationUpdateInternal(loc)
 {
 	_lastUserLoc = _curUserLoc;
-	_curUserLoc = latlng;
+	_curUserLoc = loc.latlng;
 	GetNearbyFeatures
 }
 
-// Returns true when a set of coordinates are within 2km of the user.
 function _isNearby(latLngA, latLngB)
 {
 	var dist = latLngA.distanceTo(latLngB);
@@ -67,16 +65,19 @@ function _isNearby(latLngA, latLngB)
 		return false;
 }
 
+// Callback will be notified when geolocate obtains user location.
 function RegisterGeolocationFoundFunc(cb)
 {
 	map.on('locationfound', cb);
 }
 
+// Callback will be notified when geolocate fails to obtain user location.
 function RegisterGeoLocationErrorFunc(cb)
 {
 	map.on('locationerror', cb);
 }
 
+// Returns property information related to all nearby features
 function GetNearbyFeatures()
 {
 	var nearbyFeatures = [];
@@ -94,10 +95,16 @@ function GetNearbyFeatures()
 		{
 			nearbyFeatures.push(feature);
 		}
-
+		
 		_nearbyCache = nearbyFeatures;
 		return nearbyFeatures;
 	}
+}
+
+// If the user is currently within the bounds of a park, return that park.
+function GetCurrentPark()
+{
+
 }
 
 // Data loading
@@ -118,21 +125,8 @@ $(document).ready(function()
     function( data ) 
     { 
 		_features.push(data.features);
-    	L.Proj.geoJson(data).addTo(map);
+    	_dataLayers.push(L.Proj.geoJson(data).addTo(map));
     });
   }
 
 });
-
-	//L.circle([51.508, -0.11], {
-	//	color: 'red',
-	//	fillColor: '#f03',
-	//	fillOpacity: 0.5,
-	//	radius: 500
-	//}).addTo(map);
-
-	//L.polygon([
-	//	[51.509, -0.08],
-	//	[51.503, -0.06],
-	//	[51.51, -0.047]
-	//]).addTo(map);
