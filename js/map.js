@@ -99,7 +99,12 @@ function GetNearbyFeatures()
 
 		if(_isNearby(_curUserLoc, featureLoc))
 		{
-			nearby.push(feature.properties);
+			var data = {
+				distance:_curUserLoc.distanceTo(featureLoc),
+				properties: feature.properties
+			}
+
+			nearby.push(data);
 		}
 		
 		// Sort the features by distance
@@ -110,6 +115,7 @@ function GetNearbyFeatures()
 		//});
 	}
 
+	console.log("Nearby Features: " + nearby.length);
 	_nearbyCache = nearby;
 	return nearby;
 }
