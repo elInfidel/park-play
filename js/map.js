@@ -64,9 +64,6 @@ function _onLocationUpdateInternal(loc)
 
 function _isNearby(latLngA, latLngB)
 {
-	if(latLngA == undefined || latLngB == undefined)
-		return false;
-	
 	var dist = latLngA.distanceTo(latLngB);
 
 	if(dist < NEARBY_MAX_DIST)
@@ -90,40 +87,37 @@ function RegisterGeoLocationErrorFunc(cb)
 // Returns property information related to all nearby features
 function GetNearbyFeatures()
 {
-	var nearbyFeatures = [];
+	var nearby = [];
+
+	if(_curUserLoc == undefined)
+		return nearby;
 
 	for(i = 0; i < _features.length; i++)
 	{
 		feature = _features[i];
-		featureLoc = [feature.properties.lat, feature.properties.long];
+		featureLoc = L.latLng(feature.properties.lat, feature.properties.long);
 
 		if(_isNearby(_curUserLoc, featureLoc))
 		{
-			nearbyFeatures.push(feature.properties);
+			nearby.push(feature.properties);
 		}
 		
 		// Sort the features by distance
 		// Todo: Avoid calling 
-		nearbyFeatures.sort(function(a, b)
-		{
-			aLatlng = a.latlng;
-			bLatlng = b.latlng;
-
-			return _curUserLoc.distanceTo(bLatlng) - _curUserLoc.distanceTo(aLatlng)
-		});
-
-		_nearbyCache = nearbyFeatures;
-		return nearbyFeatures;
+		//nearby.sort(function(a, b)
+		//{
+		//	return _curUserLoc.distanceTo(b.latlng) - _curUserLoc.distanceTo(a.latlng);
+		//});
 	}
+
+	_nearbyCache = nearby;
+	return nearby;
 }
 
 // If the user is currently within the bounds of a park, return that park. null otherwise.
 function GetCurrentPark()
 {
-	for(i = 0; i < _nearbyCache.length; i++)
-	{
-		
-	}
+
 }
 
 // Data loading
@@ -143,7 +137,7 @@ $(document).ready(function()
     $.getJSON(url,
     function( data ) 
     { 
-		_features.concat(data.features);
+		_features = _features.concat(data.features);
     	_dataLayers.push(L.Proj.geoJson(data).addTo(map));
     });
   }

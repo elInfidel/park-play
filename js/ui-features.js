@@ -4,8 +4,10 @@ $(document).ready(function() {
 
 function updateNearbyFeatures() {
   var nearbyFeatures = GetNearbyFeatures();
+
+  if(nearbyFeatures.length > 0)
+    return;
+
   var nearest_feature = nearbyFeatures[0];
-  var site_name = nearest_feature.site_name;
-  
-  console.log(site_name);
+  //var site_name = nearest_feature.site_name;
 }
