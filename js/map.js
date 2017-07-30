@@ -1,3 +1,25 @@
+/*
+License (MIT)
+
+https://opensource.org/licenses/MIT
+
+Copyright 2017 Liam Parker, Marcela Klocker, Daniel Mason
+
+Permission is hereby granted, free of charge,
+to any person obtaining a copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 
 var map;
 
@@ -99,9 +121,16 @@ function GetNearbyFeatures()
 
 		if(_isNearby(_curUserLoc, featureLoc))
 		{
+			var pName = "Undefined";
+
+			if(feature.properties.site_name != undefined)
+				pName = feature.properties.site_name;
+			else if(feature.properties.facility_n != undefined)
+				pName = feature.properties.facility_n;
+
 			var data = {
 				distance:_curUserLoc.distanceTo(featureLoc),
-				properties: feature.properties
+				name: pName
 			}
 
 			nearby.push(data);
@@ -137,12 +166,14 @@ $(document).ready(function()
   //DataLoader("http://data.gov.au/geoserver/brimbank-parks-and-open-spaces-0-1/wfs?request=GetFeature&typeName=ckan_90e012a2_8651_43f3_8e02_bb2ae3abede6&outputFormat=json");
   // Ballarat playground data.
   //DataLoader("http://data.gov.au/dataset/a9b248c1-2078-45fa-b9c6-b2ae562c87b2/resource/693b8663-efd6-4583-9dd6-7a3793e54bae/download/ballaratplaygrounds.geojson");
-
+  // Golden Plains
+  DataLoader("http://data.gov.au/geoserver/golden-plains-playgrounds/wfs?request=GetFeature&typeName=ckan_06548285_28fd_4300_8121_996604d58dfd&outputFormat=json");
+  
   function DataLoader(url)
   {
     $.getJSON(url,
     function( data ) 
-    { 
+    {
 		_features = _features.concat(data.features);
     	_dataLayers.push(L.Proj.geoJson(data).addTo(map));
     });
