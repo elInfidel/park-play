@@ -94,6 +94,18 @@ function _isNearby(latLngA, latLngB)
 		return false;
 }
 
+function _parkStyle()
+{
+    return {
+        fillColor: getColor(feature.properties.density),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.6
+    };
+}
+
 // Callback will be notified when geolocate obtains user location.
 function RegisterGeolocationFoundFunc(cb)
 {
@@ -138,10 +150,10 @@ function GetNearbyFeatures()
 		
 		// Sort the features by distance
 		// Todo: Avoid calling 
-		//nearby.sort(function(a, b)
-		//{
-		//	return _curUserLoc.distanceTo(b.latlng) - _curUserLoc.distanceTo(a.latlng);
-		//});
+		nearby.sort(function(a, b)
+		{
+			return a.distance - b.distance;
+		});
 	}
 
 	console.log("Nearby Features: " + nearby.length);
