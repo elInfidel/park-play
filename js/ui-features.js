@@ -34,6 +34,11 @@ function updateNearbyFeatures() {
     var distance = Math.floor(nearbyFeatures[i].distance);
     var distance_measure = 'm';
     
+    var start_button = "";
+    if(distance <= 300) {
+      start_button += "<div class=\"start-challenge\">Start Challenge</div>";
+    }
+    
     if(distance > 1000) {
       distance = Math.round((distance/1000) * 100)/100;
       distance_measure = 'km';
@@ -41,6 +46,7 @@ function updateNearbyFeatures() {
     
     listContent += "<br />"
     listContent += distance + distance_measure + " Away";
+    listContent += start_button;
     $("#challenges").append("<li>" + listContent + "</li>");
   }
 }
