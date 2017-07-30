@@ -49,4 +49,19 @@ function updateNearbyFeatures() {
     listContent += start_button;
     $("#challenges").append("<li>" + listContent + "</li>");
   }
+  
+  buttonActions();
+}
+
+function buttonActions() {
+  $("#challenges li").click(function() {
+    switch($(this).find(".challenge-button").text()) {
+      case 'Start Challenge':
+        $(this).find(".challenge-button").html('[Done]');
+      break;
+      default:
+        $(this).find(".challenge-button").html('Completed!');
+      break;
+    }
+  });
 }

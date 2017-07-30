@@ -22,7 +22,7 @@ body{
 }
 
 .challenge-button {
-  width: 120px;
+  width: 140px;
   height: 30px;
   margin: 4px;
   background-color: #444;
@@ -40,6 +40,10 @@ body{
   margin: 10px;
   color: #444;
   font-family: Verdana;
+}
+
+#menu p {
+  padding: 10px;
 }
 
 #menu ul#challenges {
