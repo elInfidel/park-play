@@ -53,6 +53,11 @@ function _initGeolocation()
 
 function _onLocationUpdateInternal(loc)
 {
+	console.log("User Location: " + loc.latlng);
+
+	if(_nearbyCache.length == 0)
+		GetNearbyFeatures();
+
 	_lastUserLoc = _curUserLoc;
 	_curUserLoc = loc.latlng;
 }
@@ -87,16 +92,12 @@ function GetNearbyFeatures()
 {
 	var nearbyFeatures = [];
 
-	if(_lastUserLoc.distanceTo(_curUserLoc) > 25)
-	{
-		return _nearbyCache;
-	}
-
 	for(i = 0; i < _features.length; i++)
 	{
 		feature = _features[i];
+		featureLoc = [feature.properties.lat, feature.properties.long];
 
-		if(_isNearby(_curUserLoc, feature))
+		if(_isNearby(_curUserLoc, featureLoc))
 		{
 			nearbyFeatures.push(feature.properties);
 		}
@@ -105,8 +106,8 @@ function GetNearbyFeatures()
 		// Todo: Avoid calling 
 		nearbyFeatures.sort(function(a, b)
 		{
-			aLatlng = a.properties.latlng;
-			bLatlng = b.properties.latlng;
+			aLatlng = a.latlng;
+			bLatlng = b.latlng;
 
 			return _curUserLoc.distanceTo(bLatlng) - _curUserLoc.distanceTo(aLatlng)
 		});
@@ -131,18 +132,18 @@ $(document).ready(function()
   // Brimbank playground data.
   DataLoader("http://data.gov.au/geoserver/playground/wfs?request=GetFeature&typeName=ckan_e8d3580c_3981_47ab_a675_573805c3fa86&outputFormat=json");
   // Brimbank dog off-leash areas.
-  DataLoader("http://data.gov.au/geoserver/dog-off-leash-areas/wfs?request=GetFeature&typeName=ckan_e0e8e9ed_f781_453e_9424_83ed6cb9b8ec&outputFormat=json");
+  //DataLoader("http://data.gov.au/geoserver/dog-off-leash-areas/wfs?request=GetFeature&typeName=ckan_e0e8e9ed_f781_453e_9424_83ed6cb9b8ec&outputFormat=json");
   // Brimbank open spaces data.
-  DataLoader("http://data.gov.au/geoserver/brimbank-parks-and-open-spaces-0-1/wfs?request=GetFeature&typeName=ckan_90e012a2_8651_43f3_8e02_bb2ae3abede6&outputFormat=json");
+  //DataLoader("http://data.gov.au/geoserver/brimbank-parks-and-open-spaces-0-1/wfs?request=GetFeature&typeName=ckan_90e012a2_8651_43f3_8e02_bb2ae3abede6&outputFormat=json");
   // Ballarat playground data.
-  DataLoader("http://data.gov.au/dataset/a9b248c1-2078-45fa-b9c6-b2ae562c87b2/resource/693b8663-efd6-4583-9dd6-7a3793e54bae/download/ballaratplaygrounds.geojson");
+  //DataLoader("http://data.gov.au/dataset/a9b248c1-2078-45fa-b9c6-b2ae562c87b2/resource/693b8663-efd6-4583-9dd6-7a3793e54bae/download/ballaratplaygrounds.geojson");
 
   function DataLoader(url)
   {
     $.getJSON(url,
     function( data ) 
     { 
-		_features.push(data.features);
+		_features.concat(data.features);
     	_dataLayers.push(L.Proj.geoJson(data).addTo(map));
     });
   }
