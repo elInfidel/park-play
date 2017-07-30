@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  window.setTimeout("updateNearbyFeatures()", 15000);
+  window.setInterval("updateNearbyFeatures()", 2000);
 });
 
 function updateNearbyFeatures() {
