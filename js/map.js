@@ -171,7 +171,7 @@ function GetCurrentPark()
 $(document).ready(function()
 {
   // Brimbank playground data.
-  DataLoader("http://data.gov.au/geoserver/playground/wfs?request=GetFeature&typeName=ckan_e8d3580c_3981_47ab_a675_573805c3fa86&outputFormat=json");
+  DataLoader("https://data.gov.au/geoserver/playground/wfs?request=GetFeature&typeName=ckan_e8d3580c_3981_47ab_a675_573805c3fa86&outputFormat=json");
   // Brimbank dog off-leash areas.
   //DataLoader("http://data.gov.au/geoserver/dog-off-leash-areas/wfs?request=GetFeature&typeName=ckan_e0e8e9ed_f781_453e_9424_83ed6cb9b8ec&outputFormat=json");
   // Brimbank open spaces data.
@@ -179,7 +179,7 @@ $(document).ready(function()
   // Ballarat playground data.
   //DataLoader("http://data.gov.au/dataset/a9b248c1-2078-45fa-b9c6-b2ae562c87b2/resource/693b8663-efd6-4583-9dd6-7a3793e54bae/download/ballaratplaygrounds.geojson");
   // Golden Plains
-  DataLoader("http://data.gov.au/geoserver/golden-plains-playgrounds/wfs?request=GetFeature&typeName=ckan_06548285_28fd_4300_8121_996604d58dfd&outputFormat=json");
+  DataLoader("https://data.gov.au/geoserver/golden-plains-playgrounds/wfs?request=GetFeature&typeName=ckan_06548285_28fd_4300_8121_996604d58dfd&outputFormat=json");
   
   function DataLoader(url)
   {
