@@ -18,6 +18,7 @@ body{
   height: 100%;
   box-shadow: 1px 0px 7px #c6e68e;
   opacity: 1;
+  overflow: auto;
 }
 
 #menu #logo {

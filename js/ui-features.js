@@ -29,6 +29,18 @@ function updateNearbyFeatures() {
   var nearbyFeatures = GetNearbyFeatures();
 
   for(var i = 0; i < nearbyFeatures.length; i++) {
-    console.log(nearbyFeatures[i].name);
+    var listContent = nearbyFeatures[i].name;
+    
+    var distance = Math.floor(nearbyFeatures[i].distance);
+    var distance_measure = 'm';
+    
+    if(distance > 1000) {
+      distance = Math.round((distance/1000) * 100)/100;
+      distance_measure = 'km';
+    }
+    
+    listContent += "<br />"
+    listContent += distance + distance_measure + " Away";
+    $("#challenges").append("<li>" + listContent + "</li>");
   }
 }
