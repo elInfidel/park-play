@@ -1,3 +1,25 @@
+/*
+License (MIT)
+
+https://opensource.org/licenses/MIT
+
+Copyright 2017 Liam Parker, Marcela Klocker, Daniel Mason
+
+Permission is hereby granted, free of charge,
+to any person obtaining a copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 
 var map;
 
@@ -64,15 +86,24 @@ function _onLocationUpdateInternal(loc)
 
 function _isNearby(latLngA, latLngB)
 {
-	if(latLngA == undefined || latLngB == undefined)
-		return false;
-	
 	var dist = latLngA.distanceTo(latLngB);
 
 	if(dist < NEARBY_MAX_DIST)
 		return true;
 	else
 		return false;
+}
+
+function _parkStyle()
+{
+    return {
+        fillColor: getColor(feature.properties.density),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.6
+    };
 }
 
 // Callback will be notified when geolocate obtains user location.
@@ -90,40 +121,50 @@ function RegisterGeoLocationErrorFunc(cb)
 // Returns property information related to all nearby features
 function GetNearbyFeatures()
 {
-	var nearbyFeatures = [];
+	var nearby = [];
+
+	if(_curUserLoc == undefined)
+		return nearby;
 
 	for(i = 0; i < _features.length; i++)
 	{
 		feature = _features[i];
-		featureLoc = [feature.properties.lat, feature.properties.long];
+		featureLoc = L.latLng(feature.properties.lat, feature.properties.long);
 
 		if(_isNearby(_curUserLoc, featureLoc))
 		{
-			nearbyFeatures.push(feature.properties);
+			var pName = "Undefined";
+
+			if(feature.properties.site_name != undefined)
+				pName = feature.properties.site_name;
+			else if(feature.properties.facility_n != undefined)
+				pName = feature.properties.facility_n;
+
+			var data = {
+				distance:_curUserLoc.distanceTo(featureLoc),
+				name: pName
+			}
+
+			nearby.push(data);
 		}
 		
 		// Sort the features by distance
 		// Todo: Avoid calling 
-		nearbyFeatures.sort(function(a, b)
+		nearby.sort(function(a, b)
 		{
-			aLatlng = a.latlng;
-			bLatlng = b.latlng;
-
-			return _curUserLoc.distanceTo(bLatlng) - _curUserLoc.distanceTo(aLatlng)
+			return a.distance - b.distance;
 		});
-
-		_nearbyCache = nearbyFeatures;
-		return nearbyFeatures;
 	}
+
+	console.log("Nearby Features: " + nearby.length);
+	_nearbyCache = nearby;
+	return nearby;
 }
 
 // If the user is currently within the bounds of a park, return that park. null otherwise.
 function GetCurrentPark()
 {
-	for(i = 0; i < _nearbyCache.length; i++)
-	{
-		
-	}
+
 }
 
 // Data loading
@@ -137,13 +178,15 @@ $(document).ready(function()
   //DataLoader("http://data.gov.au/geoserver/brimbank-parks-and-open-spaces-0-1/wfs?request=GetFeature&typeName=ckan_90e012a2_8651_43f3_8e02_bb2ae3abede6&outputFormat=json");
   // Ballarat playground data.
   //DataLoader("http://data.gov.au/dataset/a9b248c1-2078-45fa-b9c6-b2ae562c87b2/resource/693b8663-efd6-4583-9dd6-7a3793e54bae/download/ballaratplaygrounds.geojson");
-
+  // Golden Plains
+  DataLoader("http://data.gov.au/geoserver/golden-plains-playgrounds/wfs?request=GetFeature&typeName=ckan_06548285_28fd_4300_8121_996604d58dfd&outputFormat=json");
+  
   function DataLoader(url)
   {
     $.getJSON(url,
     function( data ) 
-    { 
-		_features.concat(data.features);
+    {
+		_features = _features.concat(data.features);
     	_dataLayers.push(L.Proj.geoJson(data).addTo(map));
     });
   }

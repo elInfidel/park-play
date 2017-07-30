@@ -18,6 +18,17 @@ body{
   height: 100%;
   box-shadow: 1px 0px 7px #c6e68e;
   opacity: 1;
+  overflow: auto;
+}
+
+.challenge-button {
+  width: 140px;
+  height: 30px;
+  margin: 4px;
+  background-color: #444;
+  color: #fff;
+  border-radius: 8px;
+  text-align: center;
 }
 
 #menu #logo {
@@ -25,16 +36,25 @@ body{
   margin:30px 5% 0px 5%;
 }
 
-#menu ul#navigation {
+#menu h3 {
+  margin: 10px;
+  color: #444;
+  font-family: Verdana;
+}
+
+#menu p {
+  padding: 10px;
+}
+
+#menu ul#challenges {
   margin: 0px;
   padding: 0px;
 }
 
-#menu ul#navigation li {
-  width: 100%;
+#menu ul#challenges li {
+  width: 90%;
   min-width: 100px;
-  line-height: 40px;
-  text-indent: 15px;
+  line-height: 27px;
   background: #fafafa;
   border-top: 1px solid #fff;
   list-style: none;
@@ -43,15 +63,16 @@ body{
   overflow: hidden;
   font-family: Verdana;
   font-size: 9pt;
+  padding: 5%;
 }
 
-#menu ul#navigation li:hover {
+#menu ul#challenges li:hover {
   background: #f0f0f0;
   cursor: pointer;
 }
 
-#menu ul#navigation li.subnavigation {
-  text-indent: 30px;
+#menu ul#challenges li:hover .challenge-button {
+  background-color: #a3db1d;
 }
 
 .background{
