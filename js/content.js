@@ -4,11 +4,7 @@ var enable_gps = new Array(
 
 var welcome = new Array(
   "Welcome to Parks+ ! I haven't seen you around here before, let me show you around!",
-  "I'm one of the park sprites. Each council has it own sprite you can meet by visiting a park in that council.",
-  "Every park has its own set of challenges. Earn points by completing these!",
-  "You can also earn points by exploring new parks and recording your travels. Good luck on your adventures!"
-);
-
-var go_to_park = new Array(
-  "Let's get started. It looks like you're not currently in a park - let's head to one now! I'll see you at the park, with a challenge ready to go for you"
+  "I'm one of the park sprites. Each council has it own sprite you can meet by visiting a park in that council. Every park also has it's own set of challenges. Earn points by completing these!",
+  "You can also earn points by exploring new parks and recording your travels.",
+  "When you're ready to get started, click the menu icon in the top left corner of your browser to find a challenge. Good luck on your adventures!"
 );
