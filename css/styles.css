@@ -21,6 +21,16 @@ body{
   overflow: auto;
 }
 
+.challenge-button {
+  width: 120px;
+  height: 30px;
+  margin: 4px;
+  background-color: #444;
+  color: #fff;
+  border-radius: 8px;
+  text-align: center;
+}
+
 #menu #logo {
   width: 90%;
   margin:30px 5% 0px 5%;
@@ -55,6 +65,10 @@ body{
 #menu ul#challenges li:hover {
   background: #f0f0f0;
   cursor: pointer;
+}
+
+#menu ul#challenges li:hover .challenge-button {
+  background-color: #a3db1d;
 }
 
 .background{

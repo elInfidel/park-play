@@ -36,7 +36,7 @@ function updateNearbyFeatures() {
     
     var start_button = "";
     if(distance <= 300) {
-      start_button += "<div class=\"start-challenge\">Start Challenge</div>";
+      start_button += "<div class=\"challenge-button\">Start Challenge</div>";
     }
     
     if(distance > 1000) {
